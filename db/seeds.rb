@@ -20,12 +20,11 @@ def api_response(url, key)
 end
 
 
-def create_satellites
+def create_satellites(status, key)
     sat = api_response("http://localhost:3000/kml", "sat") # creates an array of 4 groups of nearfield objects
-
+byebug ### need to set default to the key which points to an array
     sat.each do |sat_array| #goes through each of the 4 ["active_by_country", "inactive_by_country", "debris", "rocket_bodies"]
-        sat_array['active_by_country'].each do |country|
-
+        sat_array[status].each do |country|
             country['satellite_array'].each do |info|
                 populate_info(sat, country, info)
             end
@@ -51,10 +50,10 @@ def populate_info(sat, country, info)
     perigree = info['description']['description_block'].split("<br>")[8].split("</b>")[1].sub(" ", '')
     apogee = info['description']['description_block'].split("<br>")[9].split("</b>")[1].sub(" ", '')
     inclination = info['description']['description_block'].split("<br>")[10].split("</b>")[1].sub(" ", '')
-    byebug
+
 
     #creates the individual nearfield objects
-    Satelite.create(
+    Satellite.create(
         name: name,
         category_id: category_id,
         color: color,
@@ -77,9 +76,8 @@ end
 
 
 
-def find_color(sat)
+def find_color(sat) #determines the color code by the active status
     if sat[0].keys.first == "active_by_country"
-        byebug
         return 0
     elsif sat[0].keys.first == "inactive_by_country"
         return 1
@@ -91,4 +89,7 @@ end
 
 
 
-create_satellites
+create_satellites("active_by_country")
+create_satellites("inactive_by_country")
+create_satellites("debris")
+create_satellites("rocket_bodies")
