@@ -3,28 +3,28 @@ class SatellitesController < ApplicationController
 
     def index
         satellites = Satellite.all
-        render json: satellites
+        render json: SatelliteSerializer.new(satellites).to_serialized_json
     end
 
     def show
         satellite = Satellite.find_by(id: params[:id])
-        render json: satellite
+        render json: SatelliteSerializer.new(satellite).to_serialized_json
     end
 
     def new
         satellite = Satellite.new
-        render json: satellite
+        render json: SatelliteSerializer.new(satellite).to_serialized_json
     end
 
     def create
         satellite = Satellite.create(satellite_params)
-        render json: satellite
+        render json: SatelliteSerializer.new(satellite).to_serialized_json
     end
 
     def update
         satellite = Satellite.find_by(id: params[:id])
         satellite.update
-        render json: satellite
+        render json: SatelliteSerializer.new(satellite).to_serialized_json
     end
 
     def delete
