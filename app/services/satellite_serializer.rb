@@ -2,7 +2,7 @@ class SatelliteSerializer
 
     def initialize(satellite_object)
         @satellite = satellite_object
-      end
+    end
 
       def to_serialized_json
         @satellite.to_json(:include => {
