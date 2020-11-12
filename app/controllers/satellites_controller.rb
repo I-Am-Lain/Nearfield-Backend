@@ -32,6 +32,11 @@ class SatellitesController < ApplicationController
         satellite.delete
     end
 
+    private
+
+    def satellite_params
+        params.require(:satellite).permit(:name, :color, :satellite_number, :international_designator, :owner, :category_id, :mission, :launch_date, :launch_site, :period, :perigree, :apogee, :inclination, :x_coor, :y_coor, :z_coor)
+    end
 
 
 end
