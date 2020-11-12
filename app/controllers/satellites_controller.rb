@@ -27,16 +27,17 @@ class SatellitesController < ApplicationController
         render json: SatelliteSerializer.new(satellite).to_serialized_json
     end
 
-    def delete
-        satellite = Satellite.find_by(id: params[:id])
+    def destory
+        satellite = Satellite.find(params[:id])
         satellite.delete
+
     end
 
     private
 
-    def satellite_params
-        params.require(:satellite).permit(:name, :color, :satellite_number, :international_designator, :owner, :category_id, :mission, :launch_date, :launch_site, :period, :perigree, :apogee, :inclination, :x_coor, :y_coor, :z_coor)
-    end
+        def satellite_params
+            params.require(:satellite).permit(:name, :color, :satellite_number, :international_designator, :owner, :category_id, :mission, :launch_date, :launch_site, :period, :perigree, :apogee, :inclination, :x_coor, :y_coor, :z_coor)
+        end
 
 
 end
